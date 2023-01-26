@@ -1,0 +1,12 @@
+C:\Users\ASUS\source\repos\ClientManager\ClientManager\Shared\bin\Debug\net6.0\ClientManager.Shared.deps.json
+C:\Users\ASUS\source\repos\ClientManager\ClientManager\Shared\bin\Debug\net6.0\ClientManager.Shared.dll
+C:\Users\ASUS\source\repos\ClientManager\ClientManager\Shared\bin\Debug\net6.0\ClientManager.Shared.pdb
+C:\Users\ASUS\source\repos\ClientManager\ClientManager\Shared\obj\Debug\net6.0\ClientManager.Shared.csproj.AssemblyReference.cache
+C:\Users\ASUS\source\repos\ClientManager\ClientManager\Shared\obj\Debug\net6.0\ClientManager.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ASUS\source\repos\ClientManager\ClientManager\Shared\obj\Debug\net6.0\ClientManager.Shared.AssemblyInfoInputs.cache
+C:\Users\ASUS\source\repos\ClientManager\ClientManager\Shared\obj\Debug\net6.0\ClientManager.Shared.AssemblyInfo.cs
+C:\Users\ASUS\source\repos\ClientManager\ClientManager\Shared\obj\Debug\net6.0\ClientManager.Shared.csproj.CoreCompileInputs.cache
+C:\Users\ASUS\source\repos\ClientManager\ClientManager\Shared\obj\Debug\net6.0\ClientManager.Shared.dll
+C:\Users\ASUS\source\repos\ClientManager\ClientManager\Shared\obj\Debug\net6.0\refint\ClientManager.Shared.dll
+C:\Users\ASUS\source\repos\ClientManager\ClientManager\Shared\obj\Debug\net6.0\ClientManager.Shared.pdb
+C:\Users\ASUS\source\repos\ClientManager\ClientManager\Shared\obj\Debug\net6.0\ref\ClientManager.Shared.dll

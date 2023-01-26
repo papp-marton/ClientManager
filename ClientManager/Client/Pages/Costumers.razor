@@ -1,0 +1,123 @@
+﻿@page "/costumers"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject ICostumerService CostumerService
+@inject NavigationManager NavigationManager
+
+<h3>Costumers</h3>
+
+<button class="btn btn-primary" @onclick="CreateNewCostumer">Create New Costumer</button>
+
+<QuickGrid Items="@FilteredCostumers">
+    <PropertyColumn Title="Id" Property="@(p => p.Id)" Sortable="true">
+    </PropertyColumn>
+
+    <PropertyColumn Title="IdNum" Property="@(p => p.IdNum)" Sortable="true">
+    </PropertyColumn>
+
+    <PropertyColumn Property="@(c => c.IsCompany)" Sortable="true">
+            <ColumnOptions>
+            <select id="cars" name="cars" @bind="companyFilter" @bind:event="onchange">
+                <option value="all">All</option>
+                <option value="true">Company</option>
+                <option value="false">Personal</option>
+            </select>
+            </ColumnOptions>
+    </PropertyColumn>
+
+    <PropertyColumn Property="@(c => c.FirstName)" Sortable="true">
+        <ColumnOptions>
+            <div class="search-box">
+                <input type="search" autofocus @bind="firstNameFilter" @bind:event="oninput" placeholder="Costumer name..." />
+            </div>
+        </ColumnOptions>
+    </PropertyColumn>    
+
+    <PropertyColumn Property="@(c => c.LastName)" Sortable="true">
+        <ColumnOptions>
+            <div class="search-box">
+                <input type="search" autofocus @bind="lastNameFilter" @bind:event="oninput" placeholder="Costumer name..." />
+            </div>
+        </ColumnOptions>
+    </PropertyColumn>
+
+    <PropertyColumn Title="Phone" Property="@(p => p.Phone)" Sortable="true">
+    </PropertyColumn>
+
+    <PropertyColumn Title="Address" Property="@(p => p.Address)" Sortable="true">
+    </PropertyColumn>
+
+    <TemplateColumn Title="Actions">
+        <div style="width:100px;">
+            <button class="btn btn-primary" @onclick="@(() => ShowCostumer(context.Id))"><i class="oi oi-pencil"></i></button>
+            <button class="btn btn-danger" @onclick="@(() => DeleteCostumer(context.Id))"><i class="oi oi-circle-x"></i></button>
+        </div>        
+    </TemplateColumn>
+</QuickGrid>
+
+
+
+@code {
+    protected override async void OnInitialized()
+    {
+        itemsQueryable = CostumerService.Costumers.AsQueryable();
+
+        await CostumerService.GetCostumers();
+    }
+
+    void ShowCostumer(int id)
+    {
+        NavigationManager.NavigateTo($"costumer/{id}");
+    }
+
+    async Task DeleteCostumer(int id)
+    {
+        await CostumerService.DeleteCostumer(id);
+        itemsQueryable = CostumerService.Costumers.AsQueryable();
+        await CostumerService.GetCostumers();
+    }
+
+    void CreateNewCostumer()
+    {
+        NavigationManager.NavigateTo("/costumer");
+    }
+
+
+    IQueryable<Costumer>? itemsQueryable;
+    string firstNameFilter;
+    string lastNameFilter;
+    string companyFilter;
+
+    IQueryable<Costumer> FilteredCostumers
+    {
+        get
+        {
+            var result = itemsQueryable;
+
+            if (companyFilter == "true")
+            {
+                result = result.Where(c => c.IsCompany == true);
+            }
+
+            if (companyFilter == "false")
+            {
+                result = result.Where(c => c.IsCompany == false);
+            }
+            if (companyFilter == "all")
+            {
+                result = itemsQueryable;
+            }
+
+            if (!string.IsNullOrEmpty(firstNameFilter))
+            {
+                result = result.Where(c => c.FirstName.Contains(firstNameFilter, StringComparison.CurrentCultureIgnoreCase));
+            }
+
+            if (!string.IsNullOrEmpty(lastNameFilter))
+            {
+                result = result.Where(c => c.LastName.Contains(lastNameFilter, StringComparison.CurrentCultureIgnoreCase));
+            }
+
+            return result;
+        }
+    }    
+}

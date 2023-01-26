@@ -1,0 +1,99 @@
+﻿@page "/costumer"
+@page "/costumer/{id:int}"
+@inject ICostumerService CostumerService
+
+@if (Id == null)
+{
+    <PageTitle>Create a new Costumer</PageTitle>
+    <h3>Create a new Costumer</h3>
+}
+else
+{
+    <PageTitle>Edit @costumer.Id</PageTitle>
+    <h3>Edit @costumer.Id</h3>
+}
+
+<EditForm Model="costumer" OnSubmit="HandleSubmit">
+    <div>
+        <label for="iscompany">Costumer type:</label>
+        <InputRadioGroup Name="iscompany" id="iscompany" @bind-Value="costumer.IsCompany" class="form-control">
+            <div>
+                <InputRadio Name="iscompany" Value="@true" />Company<br>
+                <InputRadio Name="iscompany" Value="@false" />Personal<br>
+            </div>            
+        </InputRadioGroup>
+    </div>
+    <div>
+        <label for="idnum">Id Number</label>
+        <InputNumber id="idnum" @bind-Value="costumer.IdNum" class="form-control"></InputNumber>
+    </div>
+    <div>
+    <label for="firstname">First Name</label>
+        <InputText id="firstname" @bind-Value="costumer.FirstName" class="form-control"></InputText>
+    </div>
+    <div>
+        <label for="lastname">Last Name</label>
+        <InputText id="lastname" @bind-Value="costumer.LastName" class="form-control"></InputText>
+    </div>
+    <div>
+        <label for="phone">Phone</label>
+        <InputNumber id="phone" @bind-Value="costumer.Phone" class="form-control"></InputNumber>
+    </div>
+    <div>
+        <label for="address">Address</label>
+        <InputText id="address" @bind-Value="costumer.Address" class="form-control"></InputText>
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary">@btnText</button>
+    <button type="button" class="btn btn-danger" @onclick="DeleteCostumer">Delete Costumer</button>
+</EditForm>
+
+
+
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    string btnText = string.Empty;
+
+    Costumer costumer = new Costumer();
+
+    protected override async Task OnInitializedAsync()
+    {
+        btnText = Id == null ? "Save New Costumer" : "Update Costumer";
+        await CostumerService.GetCostumers();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == null)
+        {
+            costumer.Id = 0;
+        }
+        else
+        {
+            costumer = await CostumerService.GetSingleCostumer((int)Id);
+        }
+    }
+
+    async Task HandleSubmit()
+    {
+        if (Id == null)
+        {
+            await CostumerService.CreateCostumer(costumer);
+        }
+        else
+        {
+            await CostumerService.UpdateCostumer(costumer);
+        }
+    }
+
+    async Task DeleteCostumer()
+    {
+        await CostumerService.DeleteCostumer(costumer.Id);       
+    }
+}
+
+
